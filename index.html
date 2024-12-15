@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Coupon Collector Calculator</title>
+<style>
+  body {
+    font-family: Arial, sans-serif; 
+    max-width: 600px; 
+    margin: 50px auto; 
+    padding: 10px;
+  }
+  label, input, button {
+    display: block;
+    margin-bottom: 10px;
+  }
+  input {
+    padding: 5px;
+    width: 100px;
+  }
+  button {
+    padding: 10px;
+    cursor: pointer;
+  }
+  #result {
+    margin-top: 20px;
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+
+<h1>Coupon Collector Calculator</h1>
+<p>Enter a drop rate fraction (e.g. 1/15) and the total number of coupons (e.g. 24), then click Calculate.</p>
+
+<label for="droprate">Drop Rate (e.g. "1/15"):</label>
+<input type="text" id="droprate" placeholder="1/15" />
+
+<label for="coupons">Number of Coupons:</label>
+<input type="number" id="coupons" placeholder="24" />
+
+<button id="calculate">Calculate</button>
+
+<div id="result"></div>
+
+<script>
+document.getElementById('calculate').addEventListener('click', function() {
+    const droprateStr = document.getElementById('droprate').value.trim();
+    const coupons = parseInt(document.getElementById('coupons').value.trim(), 10);
+    const resultEl = document.getElementById('result');
+
+    // Parse the droprate fraction
+    if (!droprateStr.match(/^\d+\/\d+$/)) {
+      resultEl.textContent = 'Invalid drop rate format. Please use something like "1/15".';
+      return;
+    }
+    
+    const [num, den] = droprateStr.split('/').map(Number);
+    if (den === 0 || isNaN(num) || isNaN(den)) {
+      resultEl.textContent = 'Invalid drop rate fraction.';
+      return;
+    }
+
+    if (isNaN(coupons) || coupons <= 0) {
+      resultEl.textContent = 'Please enter a valid number of coupons.';
+      return;
+    }
+
+    // The formula:
+    // Expected tries = denominator_of_droprate * sum(i=1 to N) (N/i)
+    // Here: droprate = num/den, so denominator_of_droprate = den
+    let harmonicSum = 0;
+    for (let i = 1; i <= coupons; i++) {
+      harmonicSum += (coupons / i);
+    }
+
+    const expectedTries = den * harmonicSum;
+    resultEl.textContent = `Expected number of tries: ${expectedTries}`;
+});
+</script>
+
+</body>
+</html>
