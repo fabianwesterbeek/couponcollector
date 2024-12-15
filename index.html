@@ -78,9 +78,9 @@ document.getElementById('calculate').addEventListener('click', function() {
       harmonicSum += (coupons / i);
     }
 
-    // Expected tries = (N * H_N) / dropRate
     const expectedTries = harmonicSum / dropRate;
-    resultEl.textContent = `Expected number of tries: ${expectedTries}`;
+    const roundedTries = expectedTries.toFixed(2);
+    resultEl.textContent = `Expected number of tries: ${roundedTries}`;
 });
 </script>
 
