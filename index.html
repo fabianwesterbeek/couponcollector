@@ -27,32 +27,37 @@
     margin-top: 20px;
     font-weight: bold;
   }
-  .description {
-    margin-bottom: 20px;
-  }
 </style>
-<!-- Load MathJax for LaTeX rendering -->
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
 
 <h1>Coupon Collector Calculator</h1>
-<div class="description">
-  Given a drop rate \(r\) and \(n\) coupons, the expected number of tries to collect all coupons is given by:
-  \[
-     E[Y_n] = r \cdot n \sum_{i=1}^{n} \frac{1}{i}.
-  \]
-</div>
+<p>Enter a drop rate (e.g. "0.1" or "1/15") and the number of coupons (e.g. "24"), then click Calculate.</p>
 
-<label for="droprate">Drop Rate (\(r\)):</label>
+<label for="droprate">Drop Rate:</label>
 <input type="text" id="droprate" placeholder="0.1 or 1/15" />
 
-<label for="coupons">Number of Coupons (\(n\)):</label>
+<label for="coupons">Number of Coupons:</label>
 <input type="number" id="coupons" placeholder="24" />
 
 <button id="calculate">Calculate</button>
 
 <div id="result"></div>
+
+<h2>Explanation</h2>
+<p>
+  Given a drop rate \( \frac{1}{r} \) and \( n \) coupons, the expected number of tries to collect all coupons is given by:
+</p>
+<p>
+  \[
+     E[Y_n] = r \cdot n \sum_{i=1}^{n} \frac{1}{i}.
+  \]
+</p>
+<p>
+  Here, \( r \) is the reciprocal of the drop rate, \( n \) is the number of coupons, and the summation represents the harmonic number \( H_n \), which approximates \( \ln(n) + \gamma \) for large \( n \), where \( \gamma \) is the Euler-Mascheroni constant.
+</p>
 
 <script>
 document.getElementById('calculate').addEventListener('click', function() {
@@ -85,10 +90,10 @@ document.getElementById('calculate').addEventListener('click', function() {
 
     let harmonicSum = 0;
     for (let i = 1; i <= coupons; i++) {
-      harmonicSum += 1 / i;
+      harmonicSum += (coupons / i);
     }
 
-    const expectedTries = dropRate * coupons * harmonicSum;
+    const expectedTries = harmonicSum / dropRate;
     const roundedTries = expectedTries.toFixed(2);
     resultEl.textContent = `Expected number of tries: ${roundedTries}`;
 });
