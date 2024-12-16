@@ -32,7 +32,7 @@
     <button id="calculate">Calculate</button>
   
     <div id="result"></div>
-  
+    <hr>
     <h2>Explanation</h2>
     <p>
       Given a drop rate \( \frac{1}{r} \), \( n \) coupons, and rolls per loot, the expected number of tries to collect all coupons is given by
@@ -231,7 +231,7 @@
 
       try {
         const expectation = unequalCaseExpectation(probabilities);
-        unequalResultEl.textContent = `Expected number of tries (unequal probabilities): ${expectation.toFixed(4)}`;
+        unequalResultEl.textContent = `Expected number of tries (unequal probabilities): ${expectation.toFixed(2)}`;
       } catch (e) {
         unequalResultEl.textContent = e.message;
       }
