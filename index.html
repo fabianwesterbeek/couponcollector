@@ -15,15 +15,15 @@
     <h1>Coupon Collector Calculator</h1>
     <p>Enter a drop rate (e.g. "0.1" or "1/15"), the number of coupons (e.g. "24"), and rolls per loot. If you get a coupon on every try, enter "1".</p>
   
-    <label for="droprate">Drop Rate:</label>
-    <input type="text" id="droprate" placeholder="0.1 or 1/15" />
-  
-    <label for="coupons">Number of Coupons:</label>
-    <input type="number" id="coupons" placeholder="24" />
-  
-    <label for="rollsPerLoot">Rolls per Loot:</label>
-    <input type="number" id="rollsPerLoot" placeholder="1" value="1" />
-  
+    <label for="droprate">Drop Rate</label>
+    <input type="text" id="droprate" placeholder="e.g. 0.1 or 1/15" title="Enter a decimal or fraction">
+
+    <label for="coupons">Number of Coupons</label>
+    <input type="number" id="coupons" placeholder="e.g. 24" title="Total distinct coupons to collect">
+
+    <label for="rollsPerLoot">Rolls per Loot</label>
+    <input type="number" id="rollsPerLoot" placeholder="e.g. 1" value="1" title="How many rolls per attempt/loot">
+
     <button id="calculate">Calculate</button>
   
     <div id="result"></div>
@@ -56,11 +56,15 @@
   
   <script>
   document.addEventListener("DOMContentLoaded", function() {
+    const resultEl = document.getElementById('result');
+    const unequalResultEl = document.getElementById('unequalResult');
+    const probabilitiesContainer = document.getElementById('probabilitiesContainer');
+    const numProbabilitiesInput = document.getElementById('numProbabilities');
+
     document.getElementById('calculate').addEventListener('click', function() {
       const droprateStr = document.getElementById('droprate').value.trim();
       const coupons = parseInt(document.getElementById('coupons').value.trim(), 10);
       const rollsPerLoot = parseInt(document.getElementById('rollsPerLoot').value.trim(), 10);
-      const resultEl = document.getElementById('result');
       
       if (isNaN(coupons) || coupons <= 0) {
         resultEl.textContent = 'Please enter a valid number of coupons.';
@@ -172,17 +176,15 @@
       }
     }
 
-    const generateBtn = document.getElementById('generateFields');
-    const probabilitiesContainer = document.getElementById('probabilitiesContainer');
-    const calcUnequalBtn = document.getElementById('calculateUnequal');
-    const unequalResultEl = document.getElementById('unequalResult');
-
-    generateBtn.addEventListener('click', function() {
-      unequalResultEl.textContent = '';
+    numProbabilitiesInput.addEventListener('input', function() {
       probabilitiesContainer.innerHTML = '';
-      const N = parseInt(document.getElementById('numProbabilities').value.trim(), 10);
+      unequalResultEl.textContent = '';
+      
+      const N = parseInt(numProbabilitiesInput.value.trim(), 10);
       if (isNaN(N) || N <= 0) {
-        probabilitiesContainer.textContent = 'Please enter a valid N.';
+        if (!isNaN(N) && N <= 0) {
+          probabilitiesContainer.textContent = 'Please enter a positive N.';
+        }
         return;
       }
       if (N > 15) {
@@ -203,11 +205,11 @@
       }
     });
 
-    calcUnequalBtn.addEventListener('click', function() {
+    document.getElementById('calculateUnequal').addEventListener('click', function() {
       unequalResultEl.textContent = '';
-      const N = parseInt(document.getElementById('numProbabilities').value.trim(), 10);
+      const N = parseInt(numProbabilitiesInput.value.trim(), 10);
       if (isNaN(N) || N <= 0 || N > 15) {
-        unequalResultEl.textContent = 'Please enter a valid N (≤ 15) and generate fields first.';
+        unequalResultEl.textContent = 'Please enter a valid N (≤ 15).';
         return;
       }
 
