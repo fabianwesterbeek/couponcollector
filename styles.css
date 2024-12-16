@@ -1,5 +1,5 @@
 body {
-    font-family: Arial, sans-serif; 
+    font-family: 'Roboto', Arial, sans-serif; 
     max-width: 600px; 
     margin: 50px auto; 
     padding: 10px;
@@ -13,11 +13,13 @@ body {
   input {
     padding: 5px;
     width: 100px;
+    font-family: 'Roboto', Arial, sans-serif;
   }
   
   button {
     padding: 10px;
     cursor: pointer;
+    font-family: 'Roboto', Arial, sans-serif;
   }
   
   #result {
@@ -26,7 +28,7 @@ body {
   }
   
   #content {
-    display: none;
+    display: block;
   }
   
   a.citation {
@@ -37,4 +39,3 @@ body {
   a.citation span {
     text-decoration: underline;
   }
-  
