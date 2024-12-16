@@ -40,7 +40,7 @@
     </p>
     <p>
       \[
-         E[Y_n] = \frac{r \cdot n \sum_{i=1}^{n} \frac{1}{i}}{k},
+         \mathbb{E}[Y_n] = \frac{r \cdot n}{k} \sum_{i=1}^{n} \frac{1}{i},
       \]
       where \(k\) is the number of rolls per loot.
     </p>
@@ -52,8 +52,8 @@
     <p>For scenarios where each coupon does not have an equal chance of dropping <a class="citation" href="https://mat.uab.cat/matmat_antiga/PDFv2014/v2014n02.pdf" target="_blank">[<span>2</span>]</a>, select the number of 
       distinct coupons and input each coupon's probability. Ensure that all probabilities sum to 1.</p>
     <label for="numProbabilities">Number of coupons (N):</label>
-    <hr>
     <input type="number" id="numProbabilities" min="1" max="15" placeholder="e.g. 4" />
+    <hr>
     <div id="probabilitiesContainer"></div>
     <button id="calculateUnequal">Calculate</button>
     <div id="unequalResult"></div>
