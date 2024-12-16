@@ -38,55 +38,54 @@
 </div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById('calculate').addEventListener('click', function() {
-      const droprateStr = document.getElementById('droprate').value.trim();
-      const coupons = parseInt(document.getElementById('coupons').value.trim(), 10);
-      const resultEl = document.getElementById('result');
-      
-      if (isNaN(coupons) || coupons <= 0) {
-        resultEl.textContent = 'Please enter a valid number of coupons.';
+document.addEventListener("DOMContentLoaded", function() {
+  // Ensure MathJax renders immediately
+  if (window.MathJax) {
+    MathJax.startup.promise = MathJax.startup.promise
+      .then(() => {
+        return MathJax.typesetPromise();
+      })
+      .catch((err) => console.error('Typeset failed: ' + err.message));
+  }
+
+  document.getElementById('calculate').addEventListener('click', function() {
+    const droprateStr = document.getElementById('droprate').value.trim();
+    const coupons = parseInt(document.getElementById('coupons').value.trim(), 10);
+    const resultEl = document.getElementById('result');
+    
+    if (isNaN(coupons) || coupons <= 0) {
+      resultEl.textContent = 'Please enter a valid number of coupons.';
+      return;
+    }
+
+    let dropRate;
+    if (droprateStr.includes('/')) {
+      const [numStr, denStr] = droprateStr.split('/');
+      const num = parseFloat(numStr);
+      const den = parseFloat(denStr);
+      if (isNaN(num) || isNaN(den) || den === 0) {
+        resultEl.textContent = 'Invalid drop rate fraction.';
         return;
       }
-
-      let dropRate;
-      if (droprateStr.includes('/')) {
-        const [numStr, denStr] = droprateStr.split('/');
-        const num = parseFloat(numStr);
-        const den = parseFloat(denStr);
-        if (isNaN(num) || isNaN(den) || den === 0) {
-          resultEl.textContent = 'Invalid drop rate fraction.';
-          return;
-        }
-        dropRate = num / den;
-      } else {
-        dropRate = parseFloat(droprateStr);
-        if (isNaN(dropRate) || dropRate <= 0) {
-          resultEl.textContent = 'Invalid drop rate. Please enter a positive number.';
-          return;
-        }
+      dropRate = num / den;
+    } else {
+      dropRate = parseFloat(droprateStr);
+      if (isNaN(dropRate) || dropRate <= 0) {
+        resultEl.textContent = 'Invalid drop rate. Please enter a positive number.';
+        return;
       }
+    }
 
-      let harmonicSum = 0;
-      for (let i = 1; i <= coupons; i++) {
-        harmonicSum += (coupons / i);
-      }
+    let harmonicSum = 0;
+    for (let i = 1; i <= coupons; i++) {
+      harmonicSum += (coupons / i);
+    }
 
-      const expectedTries = harmonicSum / dropRate;
-      const roundedTries = expectedTries.toFixed(2);
-      resultEl.textContent = `Expected number of tries: ${roundedTries}`;
-    });
-
-    // Ensure MathJax renders and shows content
-    window.MathJax = {
-      startup: {
-        ready: () => {
-          MathJax.startup.defaultReady();
-          document.getElementById('content').style.display = 'block';
-        }
-      }
-    };
+    const expectedTries = harmonicSum / dropRate;
+    const roundedTries = expectedTries.toFixed(2);
+    resultEl.textContent = `Expected number of tries: ${roundedTries}`;
   });
+});
 </script>
 
 </body>
