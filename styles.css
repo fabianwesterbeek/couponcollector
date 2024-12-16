@@ -1,0 +1,40 @@
+body {
+    font-family: Arial, sans-serif; 
+    max-width: 600px; 
+    margin: 50px auto; 
+    padding: 10px;
+  }
+  
+  label, input, button {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  input {
+    padding: 5px;
+    width: 100px;
+  }
+  
+  button {
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  #result {
+    margin-top: 20px;
+    font-weight: bold;
+  }
+  
+  #content {
+    display: none;
+  }
+  
+  a.citation {
+    text-decoration: none;
+    color: blue;
+  }
+  
+  a.citation span {
+    text-decoration: underline;
+  }
+  

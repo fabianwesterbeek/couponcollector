@@ -4,40 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Coupon Collector Calculator</title>
-<style>
-  body {
-    font-family: Arial, sans-serif; 
-    max-width: 600px; 
-    margin: 50px auto; 
-    padding: 10px;
-  }
-  label, input, button {
-    display: block;
-    margin-bottom: 10px;
-  }
-  input {
-    padding: 5px;
-    width: 100px;
-  }
-  button {
-    padding: 10px;
-    cursor: pointer;
-  }
-  #result {
-    margin-top: 20px;
-    font-weight: bold;
-  }
-  #content {
-    display: none;
-  }
-  a.citation {
-    text-decoration: none;
-    color: blue;
-  }
-  a.citation span {
-    text-decoration: underline;
-  }
-</style>
+<link rel="stylesheet" href="styles.css">
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
@@ -46,7 +13,7 @@
 <div id="content">
   <h1>Coupon Collector Calculator</h1>
   <p>Enter a drop rate (e.g. "0.1" or "1/15") and the number of coupons (e.g. "24"), then click Calculate. 
-    If you get a coupon on every try, enter "1" for drop rate.</p>
+    If you get a coupon on every try, enter "1".</p>
 
   <label for="droprate">Drop Rate:</label>
   <input type="text" id="droprate" placeholder="0.1 or 1/15" />
@@ -109,10 +76,16 @@
       const roundedTries = expectedTries.toFixed(2);
       resultEl.textContent = `Expected number of tries: ${roundedTries}`;
     });
-  });
 
-  MathJax.startup.promise.then(() => {
-    document.getElementById('content').style.display = 'block';
+    // Ensure MathJax renders and shows content
+    window.MathJax = {
+      startup: {
+        ready: () => {
+          MathJax.startup.defaultReady();
+          document.getElementById('content').style.display = 'block';
+        }
+      }
+    };
   });
 </script>
 
