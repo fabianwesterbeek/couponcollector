@@ -41,6 +41,14 @@
     </p>
   </div>
   
+  <div id="unequalContent">
+    <h2>Unequal Probabilities Coupon Collector Calculator</h2>
+    <p>Enter probabilities (comma-separated) that sum to 1. For example: "0.1,0.2,0.3,0.4". N must be ≤ 15.</p>
+    <input type="text" id="probabilitiesInput" placeholder="0.1,0.2,0.3,0.4" />
+    <button id="calculateUnequal">Calculate for Unequal Probabilities</button>
+    <div id="unequalResult"></div>
+  </div>
+  
   <script>
   document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('calculate').addEventListener('click', function() {
@@ -86,8 +94,85 @@
       const roundedTries = expectedTries.toFixed(2);
       resultEl.textContent = `Expected number of tries: ${roundedTries}`;
     });
+
+    // Helper to get combinations of indices
+    function getCombinations(arr, k) {
+      let results = [];
+      function backtrack(start, combo) {
+        if (combo.length === k) {
+          results.push(combo.slice());
+          return;
+        }
+        for (let i = start; i < arr.length; i++) {
+          combo.push(arr[i]);
+          backtrack(i+1, combo);
+          combo.pop();
+        }
+      }
+      backtrack(0, []);
+      return results;
+    }
+
+    // Unequal probabilities expectation calculation
+    function unequalCaseExpectation(probabilities) {
+      const sum = probabilities.reduce((a,b) => a+b, 0);
+      if (Math.abs(sum - 1.0) > 1e-12) {
+        throw new Error("Probabilities must sum to 1.");
+      }
+
+      const N = probabilities.length;
+      if (N > 15) {
+        throw new Error("N must be ≤ 15.");
+      }
+
+      let expectation = 0.0;
+      const indices = [...Array(N).keys()];
+
+      for (let k = 1; k <= N; k++) {
+        const sign = (k % 2 === 1) ? 1 : -1;
+        const subsets = getCombinations(indices, k);
+
+        let partialSum = 0;
+        for (const subset of subsets) {
+          let subsetSum = 0;
+          for (const idx of subset) {
+            subsetSum += probabilities[idx];
+          }
+          partialSum += (1.0 / subsetSum);
+        }
+
+        expectation += sign * partialSum;
+      }
+
+      return expectation;
+    }
+
+    document.getElementById('calculateUnequal').addEventListener('click', function() {
+      const inputStr = document.getElementById('probabilitiesInput').value.trim();
+      const resultEl = document.getElementById('unequalResult');
+
+      if (!inputStr) {
+        resultEl.textContent = "Please enter probabilities.";
+        return;
+      }
+
+      let probabilities = inputStr.split(',').map(p => parseFloat(p.trim())).filter(x => !isNaN(x));
+
+      if (probabilities.length === 0) {
+        resultEl.textContent = "Invalid input.";
+        return;
+      }
+
+      try {
+        const expectation = unequalCaseExpectation(probabilities);
+        resultEl.textContent = `Expected number of tries (unequal probabilities): ${expectation.toFixed(4)}`;
+      } catch (e) {
+        resultEl.textContent = e.message;
+      }
+    });
+
   });
   </script>
   
-  </body>
+</body>
 </html>
