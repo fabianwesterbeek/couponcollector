@@ -11,74 +11,83 @@
 </head>
 <body>
 
-<div id="content">
-  <h1>Coupon Collector Calculator</h1>
-  <p>Enter a drop rate (e.g. "0.1" or "1/15") and the number of coupons (e.g. "24"), then click Calculate. 
-    If you get a coupon on every try, enter "1".</p>
-
-  <label for="droprate">Drop Rate:</label>
-  <input type="text" id="droprate" placeholder="0.1 or 1/15" />
-
-  <label for="coupons">Number of Coupons:</label>
-  <input type="number" id="coupons" placeholder="24" />
-
-  <button id="calculate">Calculate</button>
-
-  <div id="result"></div>
-
-  <h2>Explanation</h2>
-  <p>
-    Given a drop rate \( \frac{1}{r} \) and \( n \) coupons, the expected number of tries to collect all coupons is given by 
-    <a class="citation" href="https://www.cambridge.org/core/journals/journal-of-applied-probability/article/generalised-coupon-collector-problem/4D5F06A32A7C98F87277BC33E49CE5AE" target="_blank">[<span>1</span>]</a>:
-  </p>
-  <p>
-    \[
-       E[Y_n] = r \cdot n \sum_{i=1}^{n} \frac{1}{i}.
-    \]
-  </p>
-</div>
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-  document.getElementById('calculate').addEventListener('click', function() {
-    const droprateStr = document.getElementById('droprate').value.trim();
-    const coupons = parseInt(document.getElementById('coupons').value.trim(), 10);
-    const resultEl = document.getElementById('result');
-    
-    if (isNaN(coupons) || coupons <= 0) {
-      resultEl.textContent = 'Please enter a valid number of coupons.';
-      return;
-    }
-
-    let dropRate;
-    if (droprateStr.includes('/')) {
-      const [numStr, denStr] = droprateStr.split('/');
-      const num = parseFloat(numStr);
-      const den = parseFloat(denStr);
-      if (isNaN(num) || isNaN(den) || den === 0) {
-        resultEl.textContent = 'Invalid drop rate fraction.';
+  <div id="content">
+    <h1>Coupon Collector Calculator</h1>
+    <p>Enter a drop rate (e.g. "0.1" or "1/15"), the number of coupons (e.g. "24"), and rolls per loot. If you get a coupon on every try, enter "1".</p>
+  
+    <label for="droprate">Drop Rate:</label>
+    <input type="text" id="droprate" placeholder="0.1 or 1/15" />
+  
+    <label for="coupons">Number of Coupons:</label>
+    <input type="number" id="coupons" placeholder="24" />
+  
+    <label for="rollsPerLoot">Rolls per Loot:</label>
+    <input type="number" id="rollsPerLoot" placeholder="1" value="1" />
+  
+    <button id="calculate">Calculate</button>
+  
+    <div id="result"></div>
+  
+    <h2>Explanation</h2>
+    <p>
+      Given a drop rate \( \frac{1}{r} \), \( n \) coupons, and rolls per loot, the expected number of tries to collect all coupons is given by:
+      <a class="citation" href="https://www.cambridge.org/core/journals/journal-of-applied-probability/article/generalised-coupon-collector-problem/4D5F06A32A7C98F87277BC33E49CE5AE" target="_blank">[<span>1</span>]</a>:
+    </p>
+    <p>
+      \[
+         E[Y_n] = \frac{r \cdot n \sum_{i=1}^{n} \frac{1}{i}}{k},
+      \]
+      where \(k\) is the number of rolls per loot.
+    </p>
+  </div>
+  
+  <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById('calculate').addEventListener('click', function() {
+      const droprateStr = document.getElementById('droprate').value.trim();
+      const coupons = parseInt(document.getElementById('coupons').value.trim(), 10);
+      const rollsPerLoot = parseInt(document.getElementById('rollsPerLoot').value.trim(), 10);
+      const resultEl = document.getElementById('result');
+      
+      if (isNaN(coupons) || coupons <= 0) {
+        resultEl.textContent = 'Please enter a valid number of coupons.';
         return;
       }
-      dropRate = num / den;
-    } else {
-      dropRate = parseFloat(droprateStr);
-      if (isNaN(dropRate) || dropRate <= 0) {
-        resultEl.textContent = 'Invalid drop rate. Please enter a positive number.';
+  
+      if (isNaN(rollsPerLoot) || rollsPerLoot <= 0) {
+        resultEl.textContent = 'Please enter a valid number of rolls per loot.';
         return;
       }
-    }
-
-    let harmonicSum = 0;
-    for (let i = 1; i <= coupons; i++) {
-      harmonicSum += (coupons / i);
-    }
-
-    const expectedTries = harmonicSum / dropRate;
-    const roundedTries = expectedTries.toFixed(2);
-    resultEl.textContent = `Expected number of tries: ${roundedTries}`;
+  
+      let dropRate;
+      if (droprateStr.includes('/')) {
+        const [numStr, denStr] = droprateStr.split('/');
+        const num = parseFloat(numStr);
+        const den = parseFloat(denStr);
+        if (isNaN(num) || isNaN(den) || den === 0) {
+          resultEl.textContent = 'Invalid drop rate fraction.';
+          return;
+        }
+        dropRate = num / den;
+      } else {
+        dropRate = parseFloat(droprateStr);
+        if (isNaN(dropRate) || dropRate <= 0) {
+          resultEl.textContent = 'Invalid drop rate. Please enter a positive number.';
+          return;
+        }
+      }
+  
+      let harmonicSum = 0;
+      for (let i = 1; i <= coupons; i++) {
+        harmonicSum += (coupons / i);
+      }
+  
+      const expectedTries = (harmonicSum / dropRate) / rollsPerLoot;
+      const roundedTries = expectedTries.toFixed(2);
+      resultEl.textContent = `Expected number of tries: ${roundedTries}`;
+    });
   });
-});
-</script>
-
-</body>
+  </script>
+  
+  </body>
 </html>
