@@ -1,245 +1,268 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<meta name="description" content="Coupon collector problem calculator: Calculate probabilities and expected values for the coupon collector problem.">
-<meta name="keywords" content="coupon collector problem, probability calculator, GitHub Pages, mathematical problems, unequal probability coupon collector, generalised coupon collector, statistics">
-<meta name="author" content="Fabian Westerbeek">
-<meta name="google-site-verification" content="tY8ufnC9qRqWJ1TRMz9WXtx6jwSubpgPcEauqiGswxI" />
-<title>Coupon Collector Calculator</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎟</text></svg>">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Coupon collector problem calculator: Calculate probabilities and expected values for the coupon collector problem, both for equal and unequal probabilities.">
+  <meta name="keywords"
+    content="coupon collector problem, probability calculator, GitHub Pages, mathematical problems, unequal probability coupon collector, generalised coupon collector, statistics">
+  <meta name="author" content="Fabian Westerbeek">
+  <meta name="google-site-verification" content="tY8ufnC9qRqWJ1TRMz9WXtx6jwSubpgPcEauqiGswxI" />
+  <title>Coupon Collector Calculator</title>
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎟</text></svg>">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
+
 <body>
 
   <div id="content">
     <h1>Coupon Collector Calculator</h1>
-    <p>Enter a drop rate (e.g. "0.1" or "1/15"), the number of coupons (e.g. "24"), and rolls per loot. If you get a coupon on every try, enter "1".</p>
-  
-    <label for="droprate">Drop Rate</label>
+    <p>Enter a drop rate (e.g. "0.1" or "1/15"), the number of coupons (e.g. "24"), and rolls per loot. If you get a
+      coupon on every try, enter "1".</p>
+
+    <label for="droprate">Drop rate</label>
     <input type="text" id="droprate" placeholder="e.g. 0.1 or 1/15" title="Enter a decimal or fraction">
 
-    <label for="coupons">Number of Coupons</label>
+    <label for="coupons">Number of coupons</label>
     <input type="number" id="coupons" placeholder="e.g. 24" title="Total distinct coupons to collect">
 
-    <label for="rollsPerLoot">Rolls per Loot</label>
+    <label for="rollsPerLoot">Rolls per loot</label>
     <input type="number" id="rollsPerLoot" placeholder="e.g. 1" value="1" title="How many rolls per attempt/loot">
 
     <button id="calculate">Calculate</button>
-  
+
     <div id="result"></div>
     <hr>
     <h2>Explanation</h2>
     <p>
-      Given a drop rate \( \frac{1}{r} \), \( n \) coupons, and rolls per loot, the expected number of tries to collect all coupons is given by
-      <a class="citation" href="https://www.cambridge.org/core/journals/journal-of-applied-probability/article/generalised-coupon-collector-problem/4D5F06A32A7C98F87277BC33E49CE5AE" target="_blank">[<span>1</span>]</a>:
+      Given a drop rate \( \frac{1}{r} \), \( n \) coupons, and rolls per loot \(k\), the expected number of tries to
+      collect
+      all coupons is given by
+      <a class="citation"
+        href="https://www.cambridge.org/core/journals/journal-of-applied-probability/article/generalised-coupon-collector-problem/4D5F06A32A7C98F87277BC33E49CE5AE"
+        target="_blank">[<span>1</span>]</a>:
     </p>
     <p>
       \[
-         \mathbb{E}[Y_n] = \frac{r}{k}n \sum_{i=1}^{n} \frac{1}{i},
+      \mathbb{E}[Y_n] = \frac{r}{k}n \sum_{i=1}^{n} \frac{1}{i}.
       \]
-      where \(k\) is the number of rolls per loot.
     </p>
   </div>
-  
+
   <!-- Section for unequal probabilities -->
   <div id="unequalContent">
     <h2>Unequal probabilities</h2>
-    <p>For scenarios where each coupon does not have an equal chance of dropping <a class="citation" href="https://mat.uab.cat/matmat_antiga/PDFv2014/v2014n02.pdf" target="_blank">[<span>2</span>]</a>, select the number of 
+    <p>For scenarios where each coupon does not have an equal chance of dropping, select the
+      number of
       distinct coupons and input each coupon's probability. Ensure that all probabilities sum to 1.</p>
-    <label for="numProbabilities">Number of coupons (N):</label>
+    <label for="numProbabilities">Number of coupons:</label>
     <input type="number" id="numProbabilities" min="1" max="15" placeholder="e.g. 4" />
     <hr>
     <div id="probabilitiesContainer"></div>
     <button id="calculateUnequal">Calculate</button>
     <div id="unequalResult"></div>
-  </div>
-  
-  <script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const resultEl = document.getElementById('result');
-    const unequalResultEl = document.getElementById('unequalResult');
-    const probabilitiesContainer = document.getElementById('probabilitiesContainer');
-    const numProbabilitiesInput = document.getElementById('numProbabilities');
+    <hr>
+    <h2>Explanation</h2>
+    <p>
+      When we have a uniform/categorical distribution for the coupons, the expected number of coupons for completing the
+      collection is given by <a class="citation" href="https://mat.uab.cat/matmat_antiga/PDFv2014/v2014n02.pdf"
+        target="_blank">[<span>2</span>]</a>:
+    </p>
+    <p>
+      \[
+      \mathbb{E}[Y_n] = \sum_i \frac{1}{p_i} - \sum_{i < j} \frac{1}{p_i + p_j} + \dots + (-1)^{n+1} \frac{1}{p_1 +
+        \dots + p_n}. \] </div>
 
-    document.getElementById('calculate').addEventListener('click', function() {
-      const droprateStr = document.getElementById('droprate').value.trim();
-      const coupons = parseInt(document.getElementById('coupons').value.trim(), 10);
-      const rollsPerLoot = parseInt(document.getElementById('rollsPerLoot').value.trim(), 10);
-      
-      if (isNaN(coupons) || coupons <= 0) {
-        resultEl.textContent = 'Please enter a valid number of coupons.';
-        return;
-      }
-  
-      if (isNaN(rollsPerLoot) || rollsPerLoot <= 0) {
-        resultEl.textContent = 'Please enter a valid number of rolls per loot.';
-        return;
-      }
-  
-      let dropRate;
-      if (droprateStr.includes('/')) {
-        const [numStr, denStr] = droprateStr.split('/');
-        const num = parseFloat(numStr);
-        const den = parseFloat(denStr);
-        if (isNaN(num) || isNaN(den) || den === 0) {
-          resultEl.textContent = 'Invalid drop rate fraction.';
-          return;
-        }
-        dropRate = num / den;
-      } else {
-        dropRate = parseFloat(droprateStr);
-        if (isNaN(dropRate) || dropRate <= 0) {
-          resultEl.textContent = 'Invalid drop rate. Please enter a positive number.';
-          return;
-        }
-      }
-  
-      let harmonicSum = 0;
-      for (let i = 1; i <= coupons; i++) {
-        harmonicSum += (coupons / i);
-      }
-  
-      const expectedTries = (harmonicSum / dropRate) / rollsPerLoot;
-      const roundedTries = expectedTries.toFixed(2);
-      resultEl.textContent = `Expected number of tries: ${roundedTries}`;
-    });
 
-    // Helper to get combinations of indices
-    function getCombinations(arr, k) {
-      let results = [];
-      function backtrack(start, combo) {
-        if (combo.length === k) {
-          results.push(combo.slice());
-          return;
-        }
-        for (let i = start; i < arr.length; i++) {
-          combo.push(arr[i]);
-          backtrack(i+1, combo);
-          combo.pop();
-        }
-      }
-      backtrack(0, []);
-      return results;
-    }
 
-    // Unequal probabilities expectation calculation
-    function unequalCaseExpectation(probabilities) {
-      const sum = probabilities.reduce((a,b) => a+b, 0);
-      if (Math.abs(sum - 1.0) > 1e-12) {
-        throw new Error("Probabilities must sum to 1.");
-      }
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            const resultEl = document.getElementById('result');
+            const unequalResultEl = document.getElementById('unequalResult');
+            const probabilitiesContainer = document.getElementById('probabilitiesContainer');
+            const numProbabilitiesInput = document.getElementById('numProbabilities');
 
-      const N = probabilities.length;
-      if (N > 15) {
-        throw new Error("N must be ≤ 15.");
-      }
+            document.getElementById('calculate').addEventListener('click', function () {
+              const droprateStr = document.getElementById('droprate').value.trim();
+              const coupons = parseInt(document.getElementById('coupons').value.trim(), 10);
+              const rollsPerLoot = parseInt(document.getElementById('rollsPerLoot').value.trim(), 10);
 
-      let expectation = 0.0;
-      const indices = [...Array(N).keys()];
+              if (isNaN(coupons) || coupons <= 0) {
+                resultEl.textContent = 'Please enter a valid number of coupons.';
+                return;
+              }
 
-      for (let k = 1; k <= N; k++) {
-        const sign = (k % 2 === 1) ? 1 : -1;
-        const subsets = getCombinations(indices, k);
+              if (isNaN(rollsPerLoot) || rollsPerLoot <= 0) {
+                resultEl.textContent = 'Please enter a valid number of rolls per loot.';
+                return;
+              }
 
-        let partialSum = 0;
-        for (const subset of subsets) {
-          let subsetSum = 0;
-          for (const idx of subset) {
-            subsetSum += probabilities[idx];
-          }
-          partialSum += (1.0 / subsetSum);
-        }
+              let dropRate;
+              if (droprateStr.includes('/')) {
+                const [numStr, denStr] = droprateStr.split('/');
+                const num = parseFloat(numStr);
+                const den = parseFloat(denStr);
+                if (isNaN(num) || isNaN(den) || den === 0) {
+                  resultEl.textContent = 'Invalid drop rate fraction.';
+                  return;
+                }
+                dropRate = num / den;
+              } else {
+                dropRate = parseFloat(droprateStr);
+                if (isNaN(dropRate) || dropRate <= 0) {
+                  resultEl.textContent = 'Invalid drop rate. Please enter a positive number.';
+                  return;
+                }
+              }
 
-        expectation += sign * partialSum;
-      }
+              let harmonicSum = 0;
+              for (let i = 1; i <= coupons; i++) {
+                harmonicSum += (coupons / i);
+              }
 
-      return expectation;
-    }
+              const expectedTries = (harmonicSum / dropRate) / rollsPerLoot;
+              const roundedTries = expectedTries.toFixed(2);
+              resultEl.textContent = `Expected number of tries: ${roundedTries}`;
+            });
 
-    // Parse a probability that might be a fraction or decimal
-    function parseProbability(str) {
-      str = str.trim();
-      if (str.includes('/')) {
-        const [numStr, denStr] = str.split('/');
-        const num = parseFloat(numStr);
-        const den = parseFloat(denStr);
-        if (isNaN(num) || isNaN(den) || den === 0) {
-          throw new Error(`Invalid fraction: ${str}`);
-        }
-        return num / den;
-      } else {
-        const val = parseFloat(str);
-        if (isNaN(val)) {
-          throw new Error(`Invalid probability: ${str}`);
-        }
-        return val;
-      }
-    }
+            // Helper to get combinations of indices
+            function getCombinations(arr, k) {
+              let results = [];
+              function backtrack(start, combo) {
+                if (combo.length === k) {
+                  results.push(combo.slice());
+                  return;
+                }
+                for (let i = start; i < arr.length; i++) {
+                  combo.push(arr[i]);
+                  backtrack(i + 1, combo);
+                  combo.pop();
+                }
+              }
+              backtrack(0, []);
+              return results;
+            }
 
-    numProbabilitiesInput.addEventListener('input', function() {
-      probabilitiesContainer.innerHTML = '';
-      unequalResultEl.textContent = '';
-      
-      const N = parseInt(numProbabilitiesInput.value.trim(), 10);
-      if (isNaN(N) || N <= 0) {
-        if (!isNaN(N) && N <= 0) {
-          probabilitiesContainer.textContent = 'Please enter a positive N.';
-        }
-        return;
-      }
-      if (N > 15) {
-        probabilitiesContainer.textContent = 'N must be ≤ 15.';
-        return;
-      }
+            // Unequal probabilities expectation calculation
+            function unequalCaseExpectation(probabilities) {
+              const sum = probabilities.reduce((a, b) => a + b, 0);
+              if (Math.abs(sum - 1.0) > 1e-12) {
+                throw new Error("Probabilities must sum to 1.");
+              }
 
-      for (let i = 1; i <= N; i++) {
-        const label = document.createElement('label');
-        label.textContent = `P${i}: `;
-        const input = document.createElement('input');
-        input.type = 'text';
-        input.placeholder = 'e.g. 0.1 or 1/2';
-        input.id = `prob_${i}`;
-        label.appendChild(input);
-        probabilitiesContainer.appendChild(label);
-        probabilitiesContainer.appendChild(document.createElement('br'));
-      }
-    });
+              const N = probabilities.length;
+              if (N > 15) {
+                throw new Error("N must be ≤ 15.");
+              }
 
-    document.getElementById('calculateUnequal').addEventListener('click', function() {
-      unequalResultEl.textContent = '';
-      const N = parseInt(numProbabilitiesInput.value.trim(), 10);
-      if (isNaN(N) || N <= 0 || N > 15) {
-        unequalResultEl.textContent = 'Please enter a valid N (≤ 15).';
-        return;
-      }
+              let expectation = 0.0;
+              const indices = [...Array(N).keys()];
 
-      let probabilities = [];
-      try {
-        for (let i = 1; i <= N; i++) {
-          const valStr = document.getElementById(`prob_${i}`).value;
-          const p = parseProbability(valStr);
-          probabilities.push(p);
-        }
-      } catch (e) {
-        unequalResultEl.textContent = e.message;
-        return;
-      }
+              for (let k = 1; k <= N; k++) {
+                const sign = (k % 2 === 1) ? 1 : -1;
+                const subsets = getCombinations(indices, k);
 
-      try {
-        const expectation = unequalCaseExpectation(probabilities);
-        unequalResultEl.textContent = `Expected number of tries (unequal probabilities): ${expectation.toFixed(2)}`;
-      } catch (e) {
-        unequalResultEl.textContent = e.message;
-      }
-    });
+                let partialSum = 0;
+                for (const subset of subsets) {
+                  let subsetSum = 0;
+                  for (const idx of subset) {
+                    subsetSum += probabilities[idx];
+                  }
+                  partialSum += (1.0 / subsetSum);
+                }
 
-  });
-  </script>
-  
+                expectation += sign * partialSum;
+              }
+
+              return expectation;
+            }
+
+            // Parse a probability that might be a fraction or decimal
+            function parseProbability(str) {
+              str = str.trim();
+              if (str.includes('/')) {
+                const [numStr, denStr] = str.split('/');
+                const num = parseFloat(numStr);
+                const den = parseFloat(denStr);
+                if (isNaN(num) || isNaN(den) || den === 0) {
+                  throw new Error(`Invalid fraction: ${str}`);
+                }
+                return num / den;
+              } else {
+                const val = parseFloat(str);
+                if (isNaN(val)) {
+                  throw new Error(`Invalid probability: ${str}`);
+                }
+                return val;
+              }
+            }
+
+            numProbabilitiesInput.addEventListener('input', function () {
+              probabilitiesContainer.innerHTML = '';
+              unequalResultEl.textContent = '';
+
+              const N = parseInt(numProbabilitiesInput.value.trim(), 10);
+              if (isNaN(N) || N <= 0) {
+                if (!isNaN(N) && N <= 0) {
+                  probabilitiesContainer.textContent = 'Please enter a positive N.';
+                }
+                return;
+              }
+              if (N > 15) {
+                probabilitiesContainer.textContent = 'N must be ≤ 15.';
+                return;
+              }
+
+              for (let i = 1; i <= N; i++) {
+                const label = document.createElement('label');
+                label.textContent = `P${i}: `;
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.placeholder = 'e.g. 0.1 or 1/2';
+                input.id = `prob_${i}`;
+                label.appendChild(input);
+                probabilitiesContainer.appendChild(label);
+                probabilitiesContainer.appendChild(document.createElement('br'));
+              }
+            });
+
+            document.getElementById('calculateUnequal').addEventListener('click', function () {
+              unequalResultEl.textContent = '';
+              const N = parseInt(numProbabilitiesInput.value.trim(), 10);
+              if (isNaN(N) || N <= 0 || N > 15) {
+                unequalResultEl.textContent = 'Please enter a valid N (≤ 15).';
+                return;
+              }
+
+              let probabilities = [];
+              try {
+                for (let i = 1; i <= N; i++) {
+                  const valStr = document.getElementById(`prob_${i}`).value;
+                  const p = parseProbability(valStr);
+                  probabilities.push(p);
+                }
+              } catch (e) {
+                unequalResultEl.textContent = e.message;
+                return;
+              }
+
+              try {
+                const expectation = unequalCaseExpectation(probabilities);
+                unequalResultEl.textContent = `Expected number of tries (unequal probabilities): ${expectation.toFixed(2)}`;
+              } catch (e) {
+                unequalResultEl.textContent = e.message;
+              }
+            });
+
+          });
+        </script>
+
 </body>
+
 </html>
