@@ -41,11 +41,15 @@
     </p>
   </div>
   
+  <!-- Section for unequal probabilities -->
   <div id="unequalContent">
-    <h2>Unequal Probabilities Coupon Collector Calculator</h2>
-    <p>Enter probabilities (comma-separated) that sum to 1. For example: "0.1,0.2,0.3,0.4". N must be ≤ 15.</p>
-    <input type="text" id="probabilitiesInput" placeholder="0.1,0.2,0.3,0.4" />
-    <button id="calculateUnequal">Calculate for Unequal Probabilities</button>
+    <h2>Unequal probabilities</h2>
+    <p>Select the number of distinct coupons (N), then enter each probability. N must be ≤ 15.</p>
+    <label for="numProbabilities">Number of coupons (N):</label>
+    <input type="number" id="numProbabilities" min="1" max="15" placeholder="e.g. 4" />
+    <button id="generateFields">Generate Fields</button>
+    <div id="probabilitiesContainer"></div>
+    <button id="calculateUnequal">Calculate</button>
     <div id="unequalResult"></div>
   </div>
   
@@ -147,27 +151,82 @@
       return expectation;
     }
 
-    document.getElementById('calculateUnequal').addEventListener('click', function() {
-      const inputStr = document.getElementById('probabilitiesInput').value.trim();
-      const resultEl = document.getElementById('unequalResult');
+    // Parse a probability that might be a fraction or decimal
+    function parseProbability(str) {
+      str = str.trim();
+      if (str.includes('/')) {
+        const [numStr, denStr] = str.split('/');
+        const num = parseFloat(numStr);
+        const den = parseFloat(denStr);
+        if (isNaN(num) || isNaN(den) || den === 0) {
+          throw new Error(`Invalid fraction: ${str}`);
+        }
+        return num / den;
+      } else {
+        const val = parseFloat(str);
+        if (isNaN(val)) {
+          throw new Error(`Invalid probability: ${str}`);
+        }
+        return val;
+      }
+    }
 
-      if (!inputStr) {
-        resultEl.textContent = "Please enter probabilities.";
+    const generateBtn = document.getElementById('generateFields');
+    const probabilitiesContainer = document.getElementById('probabilitiesContainer');
+    const calcUnequalBtn = document.getElementById('calculateUnequal');
+    const unequalResultEl = document.getElementById('unequalResult');
+
+    generateBtn.addEventListener('click', function() {
+      unequalResultEl.textContent = '';
+      probabilitiesContainer.innerHTML = '';
+      const N = parseInt(document.getElementById('numProbabilities').value.trim(), 10);
+      if (isNaN(N) || N <= 0) {
+        probabilitiesContainer.textContent = 'Please enter a valid N.';
+        return;
+      }
+      if (N > 15) {
+        probabilitiesContainer.textContent = 'N must be ≤ 15.';
         return;
       }
 
-      let probabilities = inputStr.split(',').map(p => parseFloat(p.trim())).filter(x => !isNaN(x));
+      for (let i = 1; i <= N; i++) {
+        const label = document.createElement('label');
+        label.textContent = `P${i}: `;
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.placeholder = 'e.g. 0.1 or 1/2';
+        input.id = `prob_${i}`;
+        label.appendChild(input);
+        probabilitiesContainer.appendChild(label);
+        probabilitiesContainer.appendChild(document.createElement('br'));
+      }
+    });
 
-      if (probabilities.length === 0) {
-        resultEl.textContent = "Invalid input.";
+    calcUnequalBtn.addEventListener('click', function() {
+      unequalResultEl.textContent = '';
+      const N = parseInt(document.getElementById('numProbabilities').value.trim(), 10);
+      if (isNaN(N) || N <= 0 || N > 15) {
+        unequalResultEl.textContent = 'Please enter a valid N (≤ 15) and generate fields first.';
+        return;
+      }
+
+      let probabilities = [];
+      try {
+        for (let i = 1; i <= N; i++) {
+          const valStr = document.getElementById(`prob_${i}`).value;
+          const p = parseProbability(valStr);
+          probabilities.push(p);
+        }
+      } catch (e) {
+        unequalResultEl.textContent = e.message;
         return;
       }
 
       try {
         const expectation = unequalCaseExpectation(probabilities);
-        resultEl.textContent = `Expected number of tries (unequal probabilities): ${expectation.toFixed(4)}`;
+        unequalResultEl.textContent = `Expected number of tries (unequal probabilities): ${expectation.toFixed(4)}`;
       } catch (e) {
-        resultEl.textContent = e.message;
+        unequalResultEl.textContent = e.message;
       }
     });
 
