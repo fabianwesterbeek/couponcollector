@@ -1,41 +1,97 @@
 body {
-    font-family: 'Roboto', Arial, sans-serif; 
-    max-width: 600px; 
-    margin: 50px auto; 
-    padding: 10px;
+  font-family: 'Roboto', Arial, sans-serif;
+  background: #f9f9f9;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+#content, #unequalContent {
+  background: #fff;
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px 30px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  border-radius: 8px;
+}
+
+h1, h2 {
+  margin-top: 0;
+  font-weight: 700;
+}
+
+p {
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 6px;
+}
+
+input[type="text"], input[type="number"] {
+  width: calc(100% - 12px);
+  padding: 10px;
+  font-size: 0.95em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: 'Roboto', Arial, sans-serif;
+  transition: border-color 0.3s;
+}
+
+input[type="text"]:focus, input[type="number"]:focus {
+  border-color: #888;
+  outline: none;
+}
+
+button {
+  padding: 12px 20px;
+  margin-top: 10px;
+  background: #0077cc;
+  color: #fff;
+  font-size: 1em;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: 'Roboto', Arial, sans-serif;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background: #005ea0;
+}
+
+#result, #unequalResult {
+  margin-top: 20px;
+  font-weight: bold;
+  background: #fafafa;
+  border: 1px solid #eee;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+a.citation {
+  text-decoration: none;
+  color: #0077cc;
+}
+
+a.citation:hover span {
+  text-decoration: underline;
+}
+
+#probabilitiesContainer label {
+  margin-bottom: 0;
+}
+
+#probabilitiesContainer input {
+  margin-bottom: 10px;
+}
+
+@media (max-width: 600px) {
+  #content, #unequalContent {
+    margin: 20px auto;
+    padding: 20px;
   }
-  
-  label, input, button {
-    display: block;
-    margin-bottom: 10px;
-  }
-  
-  input {
-    padding: 5px;
-    width: 100px;
-    font-family: 'Roboto', Arial, sans-serif;
-  }
-  
-  button {
-    padding: 10px;
-    cursor: pointer;
-    font-family: 'Roboto', Arial, sans-serif;
-  }
-  
-  #result {
-    margin-top: 20px;
-    font-weight: bold;
-  }
-  
-  #content {
-    display: block;
-  }
-  
-  a.citation {
-    text-decoration: none;
-    color: blue;
-  }
-  
-  a.citation span {
-    text-decoration: underline;
-  }
+}
