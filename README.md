@@ -1,6 +1,6 @@
 # Coupon Collector Calculator
 
-This repository hosts a web-based(https://fabianwesterbeek.github.io/couponcollector/) Coupon Collector Calculator that helps users estimate the expected number of tries required to collect a full set of coupons under various probabilities. It includes functionality to handle both equal and unequal coupon probabilities.
+This repository hosts a [web-based Coupon Collector Calculator](https://fabianwesterbeek.github.io/couponcollector/) that helps users estimate the expected number of tries required to collect a full set of coupons under various probabilities. It includes functionality to handle both equal and unequal coupon probabilities.
 
 ## Features
 
